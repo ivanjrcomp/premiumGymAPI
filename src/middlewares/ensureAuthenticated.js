@@ -6,7 +6,7 @@ async function ensureAuthenticated(request, response, next) {
   const authHeader = request.headers.authorization;
 
   if (!authHeader) {
-    throw new AppError("Missing token!", 401);
+    throw new AppError("token.invalid", 401);
   }
 
   const [, token] = authHeader.split(" ");
@@ -20,8 +20,8 @@ async function ensureAuthenticated(request, response, next) {
     };
 
     return next();
-  } catch {
-    throw new AppError("Invalid token", 401);
+  } catch (error) {
+    throw new AppError("token.expired", 401);
   }
 }
 
